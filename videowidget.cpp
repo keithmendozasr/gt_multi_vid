@@ -1,4 +1,4 @@
-#include <phonon/MediaSource>
+#include <Phonon>
 #include <QString>
 #include <Phonon>
 #include <QFileDialog>
@@ -28,7 +28,8 @@ void VideoWidget::init()
     ui->setupUi(this);
 
     vidWidget = new Phonon::VideoWidget(this);
-    Phonon::createPath(&mediaObject, vidWidget);
+    mediaObject = new Phonon::MediaObject(this);
+    Phonon::createPath(mediaObject, vidWidget);
 
     ui->vidGrid->addWidget(vidWidget);
     setSlots();
@@ -39,7 +40,7 @@ void VideoWidget::setVideoFile(QString fileName)
     ui->fileNameLabel->setText(fileName);
     Phonon::MediaSource *src = new Phonon::MediaSource(fileName);
     src->setAutoDelete(true);
-    mediaObject.setCurrentSource(*src);
+    mediaObject->setCurrentSource(*src);
 }
 
 VideoWidget::VideoWidget(QString fileName, QWidget *parent) :
@@ -53,31 +54,33 @@ VideoWidget::VideoWidget(QString fileName, QWidget *parent) :
 VideoWidget::~VideoWidget()
 {
     delete ui;
+    delete mediaObject;
+    delete vidWidget;
 }
 
 void VideoWidget::play()
 {
-    mediaObject.play();
+    mediaObject->play();
 }
 
 void VideoWidget::pause()
 {
-    mediaObject.pause();
+    mediaObject->pause();
 }
 
 void VideoWidget::stop()
 {
-    mediaObject.stop();
+    mediaObject->stop();
 }
 
 void VideoWidget::backStep()
 {
-    mediaObject.seek(mediaObject.currentTime() - 1000);
+    mediaObject->seek(mediaObject->currentTime() - 500);
 }
 
 void VideoWidget::fwdStep()
 {
-    mediaObject.seek(mediaObject.currentTime() + 1000);
+    mediaObject->seek(mediaObject->currentTime() + 500);
 }
 
 void VideoWidget::selectVideo()

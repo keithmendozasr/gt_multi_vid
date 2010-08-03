@@ -27,10 +27,12 @@ private:
     int numVids;
 
     void createVidWidgets();
+    void askNumVids();
 
 private slots:
     void startDialogAccept();
     void startDialogReject();
+    void setVideos();
 };
 
 #endif // MAINWINDOW_H
